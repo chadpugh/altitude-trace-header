@@ -4,12 +4,22 @@
 <head>      	
   <meta charset="utf-8">
   <title>Altitude Trace - Header Background</title>
+  <link rel="stylesheet" href="style.css">
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.10/p5.js"></script>
   <script src="sketch.js"></script>
+  <script>
+    function reloadAnimation() {
+      location.reload();
+    }
+  </script>
 </head>
 
 <body style="text-align:center; margin:0; padding:0; background:rgb(1, 9, 45)">
+  <div id="content-overlay">
+    <img src="prop.svg" alt="Propeller Logo" id="propeller-logo">
+    <button id="reload-btn" onclick="reloadAnimation()">Reload</button>
+  </div>
 </body>
 
 </html>

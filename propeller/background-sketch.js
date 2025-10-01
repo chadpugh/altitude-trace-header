@@ -53,22 +53,26 @@ let sketch = function(p) {
 
   // Resize canvas when window is resized
   p.windowResized = function() {
+    // Store the old dimensions for scaling calculations
+    let oldWidth = p.width;
+    let oldHeight = p.height;
+    
+    // Only resize the canvas, don't regenerate particles
     p.resizeCanvas(p.windowWidth, p.windowHeight);
     
-    // Regenerate particles for new dimensions
-    particle_sets = [];
-    for (var j = 0; j < number_of_particle_sets; j++) {
-      let ps = [];
-      for (var i = 0; i < number_of_particles; i++) {
-        ps.push(
-          new Particle(
-            p.randomGaussian(p.width / 2, 160),
-            p.randomGaussian(3 * p.height / 5, 160),
-            p.random(p.TWO_PI)
-          )
-        );
-      }
-      particle_sets.push(ps);
+    // If we have existing particles, scale their positions proportionally
+    // This preserves the animation state while adapting to new dimensions
+    if (particle_sets.length > 0) {
+      let scaleX = p.width / oldWidth;
+      let scaleY = p.height / oldHeight;
+      
+      particle_sets.forEach(function(particles) {
+        particles.forEach(function(particle) {
+          // Scale particle positions to match new canvas dimensions
+          particle.pos.x *= scaleX;
+          particle.pos.y *= scaleY;
+        });
+      });
     }
   };
 
